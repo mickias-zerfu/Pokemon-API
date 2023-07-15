@@ -1,0 +1,103 @@
+<button class="button-40" style="background-color:#26499E" (click)="onAllClicked()"> All pokemans </button>
+<button class="button-40" style="background-color:#849e26; margin-left: 60px;" (click)="onfavClicked()"> My Favorites
+</button>
+
+<div *ngIf="onlyFavorites">
+  <h3>My Favorites</h3>
+  <div *ngFor="let poke of favoritesList" class="poke-list-card item" style="display: inline-block;">
+    <div class="example-card">
+      <div class="item-header">
+        <h3>{{poke.name}}</h3>
+      </div>
+      <div class="pet-detail">
+        <div class="imagecontainer">
+          <img *ngIf="poke.sprite!=null" alt="Image of poke" class="previewimage" src="{{poke.sprite}}" />
+          <img *ngIf="!poke.sprite" alt="Image of poke" class="previewimage" mat-card-image
+            src="../../assets/noimagefound.png" />
+        </div>
+      </div>
+      <div class="favorite-container">
+        <button class="favorite" (click)="unLiked(poke )" *ngIf="likedIcon(true, poke)">
+          <i class="fa fa-heart" style="font-size:36px;color:red"></i>
+        </button>
+        <button class="favorite" (click)="liked(poke )" *ngIf="likedIcon(false, poke)">
+          <i class="fa fa-heart" style="font-size:36px;color:rgb(21, 0, 255)"></i>
+        </button>
+        <button class="button-40"
+          style="background-color:#26499E; margin-left: 20px; font-size: small; line-height: unset;"
+          routerLinkActive="nav-link active" (click)="toggleUpdateMode(poke)">Update
+        </button>
+      </div>
+    </div>
+    <div class="action">
+      <div *ngIf="poke.editMode">
+        <input type="text" [(ngModel)]="poke.name" />
+        <button class="button-40" style="background-color:#26499E" routerLinkActive="nav-link active"
+          (click)="updateName(poke)"> update
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div *ngIf="!onlyFavorites">
+  <h4>Displaying all pokemons ....</h4>
+  <div>
+    <div class="searchComponent">
+      <h2>Search</h2>
+      <div class="params">
+        <div appearance="fill" class="form-component">
+          <div class="label">Filter by Type and Sort</div>
+          <select id="filter-type" [(ngModel)]="filterType" (change)="applyFiltersAndSort()">
+            <option value="">All</option>
+            <option *ngFor="let type of getAvailableTypes" [value]="type">
+              {{ type }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <label for="sort-order">Sort Order:</label>
+          <select id="sort-order" [(ngModel)]="sortOrder" (change)="applyFiltersAndSort()">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let poke of pokemanList" class="poke-list-card item" style="display: inline-block;">
+      <div class="example-card">
+        <div class="item-header">
+          <h3>{{poke.name}}</h3>
+        </div>
+        <div class="pet-detail">
+          <div class="imagecontainer">
+            <img *ngIf="poke.sprite!=null" alt="Image of poke" class="previewimage" src="{{poke.sprite}}" />
+            <img *ngIf="!poke.sprite" alt="Image of poke" class="previewimage" mat-card-image
+              src="../../assets/noimagefound.png" />
+          </div>
+        </div>
+        <div class="favorite-container">
+          <button class="favorite" (click)="unLiked(poke )" *ngIf="likedIcon(true, poke)">
+            <i class="fa fa-heart" style="font-size:36px;color:#fb8405"></i>
+          </button>
+          <button class="favorite" (click)="liked(poke )" *ngIf="likedIcon(false, poke)">
+            <i class="fa fa-heart" style="font-size:36px;color:rgb(10, 2, 49)"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+    <div *ngIf="pokemanList.length<=0" class="poke-list-card item" style="display: inline-block;">
+      <div>
+        <H4 style="background-color: rgb(126, 68, 68);"> NO Pokemon Found with this Filterd Type Please Click on All
+          Pokemon button or Next.</H4>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center;">
+      <button class="button-40 " style="background-color:#13234b; width: 200px;" (click)="onPrevClicked()"> PREV
+      </button>
+      <button class="button-40 " style="background-color:#26499E; width: 200px; margin-left: 30px;"
+        (click)="onNextClicked()"> Next </button>
+    </div>
+  </div>

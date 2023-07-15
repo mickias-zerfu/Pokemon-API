@@ -1,0 +1,9 @@
+<main >
+  <section>
+  <app-poke-list *ngIf="isPetReturned" [pokemanList]="pokemanListObject"></app-poke-list>
+
+
+
+</section>
+
+<div *ngIf="!isPetReturned"> L o a d i n g . . . </div>
